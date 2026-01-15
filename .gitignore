@@ -1,0 +1,49 @@
+# =========================
+# Windows / Visual Studio / MinGW
+# =========================
+*.exe
+*.o
+*.obj
+*.out
+*.log
+*.pdb
+*.ilk
+*.idb
+
+# Build / debug folders
+/build/
+Debug/
+Release/
+
+# =========================
+# Linux / GCC / Make
+# =========================
+*.out
+*.a
+*.so
+*.d
+*.tmp
+*.swp
+*.stackdump
+*.gch
+*.dSYM/
+
+# CMake / make temporary files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# =========================
+# macOS
+# =========================
+*.DS_Store
+*.dylib
+*.app
+
+# =========================
+# General
+# =========================
+*.log
+*.tmp
+*.bak

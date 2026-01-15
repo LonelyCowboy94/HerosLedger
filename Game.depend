@@ -1,0 +1,85 @@
+# depslib dependency file v1.0
+1768398138 source:c:\users\nikol\desktop\game\main.cpp
+	<iostream>
+	"game.h"
+
+1768349230 
+
+1768354942 c:\users\nikol\desktop\game\game.h
+
+1768352988 c:\users\nikol\desktop\game\game_menu.cpp
+	"game.h"
+	"player.h"
+	"shop.h"
+	<iostream>
+
+1768326813 c:\users\nikol\desktop\game\instructions.cpp
+	"game.h"
+	<iostream>
+
+1768354334 c:\users\nikol\desktop\game\player.h
+	<map>
+	<string>
+
+1768354958 c:\users\nikol\desktop\game\shop.cpp
+	"shop.h"
+	<iostream>
+
+1768345630 c:\users\nikol\desktop\game\shop.h
+	"player.h"
+
+1768362071 source:/home/dunja/Desktop/Game/main.cpp
+	<iostream>
+	"game.h"
+
+1768358542 /home/dunja/Desktop/Game/game.h
+
+1768352988 /home/dunja/Desktop/Game/game_menu.cpp
+	"game.h"
+	"player.h"
+	"shop.h"
+	<iostream>
+
+1768357935 /home/dunja/Desktop/Game/player.h
+	<map>
+	<string>
+
+1768349230 /home/dunja/Desktop/Game/shop.h
+	"player.h"
+
+1768326813 /home/dunja/Desktop/Game/instructions.cpp
+	"game.h"
+	<iostream>
+
+1768354958 /home/dunja/Desktop/Game/shop.cpp
+	"shop.h"
+	<iostream>
+
+1768363219 source:/home/dunja/Desktop/Game/shop.cpp
+	"shop.h"
+	<iostream>
+
+1768362686 source:/home/dunja/Desktop/Game/game_menu.cpp
+	"game.h"
+	"player.h"
+	"shop.h"
+	<iostream>
+
+1768326813 source:/home/dunja/Desktop/Game/instructions.cpp
+	"game.h"
+	<iostream>
+
+1768359086 source:c:\users\nikol\desktop\game\game_menu.cpp
+	"game.h"
+	"player.h"
+	"shop.h"
+	<iostream>
+
+1768323212 source:c:\users\nikol\desktop\game\instructions.cpp
+	"game.h"
+	<iostream>
+
+1768359618 source:c:\users\nikol\desktop\game\shop.cpp
+	"shop.h"
+	<iostream>
+
