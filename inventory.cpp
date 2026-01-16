@@ -40,12 +40,12 @@ void inventoryMenu(Player &player, Weapon weapons[], int weaponSize, Armor armor
         std::cout << "Your choice: ";
         std::string input;
         std::cin >> input;
-
+clearScreen();
         if (input == "0")
             break;
         else if (input == "e" || input == "E")
         {
-            clearScreen();
+            
             if (keys.empty())
             {
                 textCenter("You have nothing to equip!", 50);

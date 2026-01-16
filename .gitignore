@@ -47,3 +47,4 @@ Makefile
 *.log
 *.tmp
 *.bak
+*.txt

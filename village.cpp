@@ -1,5 +1,6 @@
 #include "village.h"
 #include "utils.h"
+#include "player.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>

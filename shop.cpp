@@ -121,7 +121,7 @@ int buyPotions(Player &player, Potion potions[], int potionSize)
         }
         std::cout << "\n0. Back" << std::endl;
         showPlayerStatus(player);
-        std::cout << "\nYour choice: ";
+        std::cout << "Your choice: ";
         std::cin >> choice7;
         clearScreen();
 
@@ -134,7 +134,8 @@ int buyPotions(Player &player, Potion potions[], int potionSize)
                     player.inventory[potions[i - 1].name]++;
                     player.gold -= potions[i - 1].price;
                     std::cout << "\n\t> Purchased: " << potions[i - 1].name << " x1 <" << std::endl;
-                    choice7 = 0;
+                    std::cout << "You now have " << player.inventory[potions[i - 1].name] << " " << potions[i - 1].name << "(s) in your inventory.\n"
+                              << std::endl;
                 }
                 else
                 {

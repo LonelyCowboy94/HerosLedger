@@ -8,10 +8,10 @@ int gameMenu(Player &player, Weapon weapons[], int weaponSize,
              Armor armors[], int armorSize, Potion potions[], int potionSize)
 {
     int choice2 = -1;
-
+    clearScreen();
     while (choice2 != 0) {
         cout << "\n\t--> Where doth your journey lead, noble warrior? <--" << endl;
-        cout << "\n1. Market Square \n2. Treasury Hall \n3. Adventure \n4. Village \n5. Inventory \n\n0. Exit game\n" << endl;
+        cout << "\n1. Market Square \n2. Treasury Hall \n3. Adventure \n4. Village \n5. Inventory \n\n0. Main menu\n" << endl;
         showPlayerStatus(player);
         cout << "Your choice: ";
         cin >> choice2;
