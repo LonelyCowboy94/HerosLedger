@@ -10,5 +10,6 @@
 int gameMenu(Player &player, Weapon weapons[], int weaponSize,
              Armor armors[], int armorSize, Potion potions[], int potionSize);
 void instructions();
+void inventoryMenu(Player &player, Weapon weapons[], int weaponSize, Armor armors[], int armorSize);
 
 #endif

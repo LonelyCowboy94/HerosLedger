@@ -2,6 +2,8 @@
 #include "utils.h"
 #include "player.h"
 #include <iostream>
+#include <string>
+#include <vector>
 
 int shop(Player &player, Weapon weapons[], int weaponSize, Armor armors[], int armorSize, Potion potions[], int potionSize)
 {
@@ -13,6 +15,7 @@ int shop(Player &player, Weapon weapons[], int weaponSize, Armor armors[], int a
         std::cout << std::endl;
         std::cout << "\n1. Weapons \n2. Potions \n3. Armor \n4. Sell Items \n\n0. Back\n"
                   << std::endl;
+                  showPlayerStatus(player);
         std::cout << "Your choice: ";
         std::cin >> choice4;
         clearScreen();
@@ -69,6 +72,7 @@ int buyArmor(Player &player, Armor armors[], int armorSize)
         }
         std::cout << "\n0. Back" << std::endl;
 
+        showPlayerStatus(player);
         std::cout << "\nYour choice: ";
         std::cin >> choice8;
         clearScreen();
@@ -116,6 +120,7 @@ int buyPotions(Player &player, Potion potions[], int potionSize)
             std::cout << i + 1 << ". " << potions[i].name << " - Effect Amount: " << potions[i].effectAmount << " - Price: $" << potions[i].price << std::endl;
         }
         std::cout << "\n0. Back" << std::endl;
+        showPlayerStatus(player);
         std::cout << "\nYour choice: ";
         std::cin >> choice7;
         clearScreen();
@@ -159,6 +164,7 @@ int buyWeapon(Player &player, Weapon weapons[], int weaponSize)
 
         std::cout << "\n0. Back" << std::endl;
 
+        showPlayerStatus(player);
         std::cout << "\nYour choice: ";
         std::cin >> choice5;
         clearScreen();
@@ -191,47 +197,11 @@ int buyWeapon(Player &player, Weapon weapons[], int weaponSize)
     return 0;
 }
 
-void sellMenu(Player &player, 
-              Weapon weapons[], int weaponSize, 
-              Armor armors[], int armorSize, 
-              Potion potions[], int potionSize) {
-
-                std::cout << std::endl;
-                textCenter("--> Sell Items <--");
-                std::cout << std::endl;
-  
-    std::cout << "\nYour Inventory:\n";
-    for(auto &item : player.inventory) {
-        if(item.second > 0)
-            std::cout << "- " << item.first << " x" << item.second << "\n";
-    }
-
-    if(!player.weapon.name.empty())
-        std::cout << "- " << player.weapon.name << " (equipped weapon)\n";
-    if(!player.armor.name.empty())
-        std::cout << "- " << player.armor.name << " (equipped armor)\n";
-
-        std::cout << "\n0. Back\n";
-
-    std::string itemToSell;
-    std::cout << "\nEnter the name of the item you want to sell: ";
-    std::cin.ignore(); 
-    std::getline(std::cin, itemToSell); 
-
-    if(itemToSell == "0" || itemToSell.empty()) {
-        clearScreen();
-        return; 
-    }
-    sellItem(player, itemToSell, weapons, weaponSize, armors, armorSize, potions, potionSize);
-    player.inventory.erase(itemToSell);
-}
-
-
 void sellItem(Player &player, const std::string& itemName,
               Weapon weapons[], int weaponSize,
               Armor armors[], int armorSize,
-              Potion potions[], int potionSize) {
-
+              Potion potions[], int potionSize)
+{
     int price = 0;
 
     for(int i = 0; i < weaponSize; i++) {
@@ -240,7 +210,7 @@ void sellItem(Player &player, const std::string& itemName,
             break;
         }
     }
-
+    
     if(price == 0) {
         for(int i = 0; i < armorSize; i++) {
             if(armors[i].name == itemName) {
@@ -249,7 +219,7 @@ void sellItem(Player &player, const std::string& itemName,
             }
         }
     }
-
+   
     if(price == 0) {
         for(int i = 0; i < potionSize; i++) {
             if(potions[i].name == itemName) {
@@ -260,42 +230,116 @@ void sellItem(Player &player, const std::string& itemName,
     }
 
     if(price == 0) {
-        std::cout << "\n\t> " << itemName << " does not exist! <\n";
+        textCenter(itemName + " does not exist!", 50);
         return;
     }
 
-    if(player.inventory[itemName] > 0) {
-        player.inventory[itemName]--; 
-        player.gold += static_cast<int>(price * 0.7);
-        std::cout << std::endl;
-        textCenter("> Sold one " + itemName + " for " + std::to_string(static_cast<int>(price*0.7)) + " gold <", 50);
-        textCenter("=== gold at belt: " + std::to_string(player.gold) + " ===", 50);
+    int maxQuantity = 0;
 
-        if(player.inventory[itemName] == 0)
+    if(player.inventory.count(itemName))
+        maxQuantity = player.inventory[itemName];
+    else if(player.weapon.name == itemName || player.armor.name == itemName)
+        maxQuantity = 1;
+    else {
+        textCenter("You do not have " + itemName + " to sell!", 50);
+        return;
+    }
+
+    int qtyToSell = 1;
+    if(maxQuantity > 1) {
+        std::cout << "\nYou have " << maxQuantity << " " << itemName << ". How many do you want to sell? ";
+        std::cin >> qtyToSell;
+        if(qtyToSell > maxQuantity) qtyToSell = maxQuantity; 
+        if(qtyToSell < 1) qtyToSell = 1; 
+    }
+
+    if(player.inventory.count(itemName)) {
+        player.inventory[itemName] -= qtyToSell;
+        if(player.inventory[itemName] <= 0)
             player.inventory.erase(itemName);
-
-        return;
     }
-
-    if(player.weapon.name == itemName) {
+    else if(player.weapon.name == itemName) {
         player.unequipWeapon();
-        player.gold += static_cast<int>(price * 0.7);
-        std::cout << std::endl;
-        textCenter("> Sold equipped " + itemName + " for " + std::to_string(static_cast<int>(price*0.7)) + " gold <", 50);
-        textCenter("=== gold at belt: " + std::to_string(player.gold) + " ===", 50);
-        return;
     }
-
-    if(player.armor.name == itemName) {
+    else if(player.armor.name == itemName) {
         player.unequipArmor();
-        player.gold += static_cast<int>(price * 0.7);
-        std::cout << std::endl;
-        textCenter("> Sold equipped " + itemName + " for " + std::to_string(static_cast<int>(price*0.7)) + " gold <", 50);
-        textCenter("=== gold at belt: " + std::to_string(player.gold) + " ===", 50);
-       
-        return;
     }
 
-    std::cout << "\n\t> You do not have " << itemName << " to sell! <\n";
+    int gainedGold = static_cast<int>(price * 0.7) * qtyToSell;
+    player.gold += gainedGold;
+
+    std::cout << std::endl;
+    textCenter("> Sold " + std::to_string(qtyToSell) + " " + itemName + " for " + std::to_string(gainedGold) + " gold <", 50);
+    textCenter("=== Gold at belt: " + std::to_string(player.gold) + " ===", 50);
+    std::cout << std::endl;
 }
+
+
+
+void sellMenu(Player &player, 
+              Weapon weapons[], int weaponSize, 
+              Armor armors[], int armorSize, 
+              Potion potions[], int potionSize) 
+{
+    int choice = -1;
+    while(choice != 0)
+    {
+        clearScreen();
+        textCenter("--> Sell Items <--");
+        std::cout << std::endl;
+
+        std::vector<std::string> keys;
+        int idx = 1;
+
+        for(auto &item : player.inventory) {
+            if(item.second > 0) {
+                std::cout << idx << ". " << item.first << " x" << item.second << "\n";
+                keys.push_back(item.first);
+                idx++;
+            }
+        }
+
+        if(!player.weapon.name.empty()) {
+            std::cout << idx << ". " << player.weapon.name << " (equipped weapon)\n";
+            keys.push_back(player.weapon.name);
+            idx++;
+        }
+        if(!player.armor.name.empty()) {
+            std::cout << idx << ". " << player.armor.name << " (equipped armor)\n";
+            keys.push_back(player.armor.name);
+            idx++;
+        }
+
+        if(keys.empty()) {
+            textCenter("You have nothing to sell!", 50);
+            std::cout << "\n0. Back\n";
+            std::cout << "Press Enter to continue...";
+            std::cin.ignore();
+            std::cin.get();
+            return;
+        }
+
+        std::cout << "\n0. Back\n";
+        std::cout << "\nWitch item you want to sell: ";
+        std::cin >> choice;
+
+        if(choice == 0)
+            break;
+        if(choice < 1 || choice > (int)keys.size()) {
+            textCenter("Invalid selection!", 50);
+            std::cout << "Press Enter to continue...";
+            std::cin.ignore();
+            std::cin.get();
+            continue;
+        }
+
+        std::string selectedItem = keys[choice - 1];
+        sellItem(player, selectedItem, weapons, weaponSize, armors, armorSize, potions, potionSize);
+
+        std::cout << "Press Enter to continue...";
+        std::cin.ignore();
+        std::cin.get();
+    }
+}
+
 

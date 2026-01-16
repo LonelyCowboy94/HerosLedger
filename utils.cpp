@@ -3,6 +3,13 @@
 #include <cstdlib>
 #include <sstream>
 
+void showPlayerStatus(const Player &player)
+{
+    std::cout << "   HP: " << player.hp
+              << "        Mana: " << player.mana
+              << std::endl;
+}
+
 void textCenter(const std::string& text, int width)
 {
     if (text.length() >= static_cast<size_t>(width)) {
@@ -22,3 +29,4 @@ void clearScreen()
     system("clear");  
 #endif
 }
+

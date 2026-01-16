@@ -12,6 +12,7 @@ int gameMenu(Player &player, Weapon weapons[], int weaponSize,
     while (choice2 != 0) {
         cout << "\n\t--> Where doth your journey lead, noble warrior? <--" << endl;
         cout << "\n1. Market Square \n2. Treasury Hall \n3. Adventure \n4. Village \n5. Inventory \n\n0. Exit game\n" << endl;
+        showPlayerStatus(player);
         cout << "Your choice: ";
         cin >> choice2;
         clearScreen();
@@ -35,23 +36,7 @@ int gameMenu(Player &player, Weapon weapons[], int weaponSize,
 
             case 5:
             {
-                int choice6 = -1;
-                while(choice6 != 0){
-                    cout << "\n\t--> Thy Inventory <--" << endl;
-                    cout << "\nGold: " << player.gold << endl;
-                    cout << "Diamonds: " << player.diamonds << endl;
-                    cout << "\nWeapon: " << player.weapon.name << " (dmg: " << player.weapon.damage << ")" << endl;
-                    cout << "Armor: " << player.armor.name << " (def: " << player.armor.defense << ")\n" << endl;
-
-                    for(auto &item : player.inventory) {
-                        if(item.second > 0)
-                            cout << item.first << " x" << item.second << "\n";
-                    }
-                    cout << "\n0. Back\n" << endl;
-                    cout << "Your choice: ";
-                    cin >> choice6;
-                    clearScreen();
-                }
+                inventoryMenu(player, weapons, weaponSize, armors, armorSize);
                 break;
             }
 

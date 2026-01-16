@@ -23,6 +23,7 @@ struct Potion {
 
 struct Player {
     int hp;
+    int mana;
     int xp;
     int gold;
     int bankGold;

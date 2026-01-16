@@ -10,15 +10,15 @@ int main()
     int choice = 0;
     bool gameStarted = false;
 
-    // --- Player setup (prebačeno ovde) ---
+    // --- Player setup
     Player player;
     player.hp = 100;
+    player.mana = 100;
     player.xp = 0;
     player.gold = 2000;
     player.bankGold = 0;
     player.diamonds = 0;
 
-    // Weapon i Armor mogu odmah da se opreme
     Weapon weapons[] = {
         {"Dagger", 15, 60},
         {"Spear", 25, 150},
@@ -42,7 +42,7 @@ int main()
     player.equipWeapon(weapons[0]);
     player.equipArmor(armors[0]);
 
-    // Inventory inicijalizacija
+    // STARTING ITEMS
     string items[] = {
         "Health Potion","Mana Potion","Rusty Dagger","Iron Shield","Thunder Mace",
         "Leather Armor","Chainmail","Steel Armor","Dagger","Spear","Short Bow",
@@ -50,12 +50,11 @@ int main()
     };
     for (auto &item : items) player.inventory[item] = 0;
 
-    // Velicine nizova
     int weaponSize = sizeof(weapons)/sizeof(weapons[0]);
     int armorSize = sizeof(armors)/sizeof(armors[0]);
     int potionSize = sizeof(potions)/sizeof(potions[0]);
 
-    // --- Main menu loop ---
+    // --- Main menu ---
     while (choice != 3)
     {
         cout << endl;
