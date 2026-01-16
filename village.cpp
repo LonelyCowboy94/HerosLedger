@@ -1,4 +1,5 @@
 #include "village.h"
+#include "utils.h"
 #include <iostream>
 #include <cstdlib> 
 #include <vector>
@@ -27,7 +28,7 @@ int villageMenu(Player &player)
 
         std::cout << "Your choice: ";
         std::cin >> choice;
-        std::cout << "____________________\n";
+        clearScreen();
 
         switch(choice) {
             case 1: homeStash(player); break;

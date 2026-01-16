@@ -1,20 +1,32 @@
 #include "bank.h"
 #include "player.h"
+#include "utils.h"
+#include <iomanip>
 #include <iostream>
 
 int bankMenu(Player &player)
 {
+    clearScreen();
     int choice = -1;
     while (choice != 0)
     {
-        std::cout << "\n\t--> Welcome to the Treasury Hall <--\n"
-                  << std::endl;
+        std::cout << std::endl;
+        textCenter("--> Welcome to the Treasury Hall <--");
+        std::cout << std::endl;
+        std::cout 
+    << std::left
+    << "Gold at Belt: "
+    << std::setw(8)  << player.gold
+    << "Bank: "
+    << std::setw(8)  << player.bankGold
+    << "Diamonds: " << player.diamonds
+    << std::endl << std::endl;
         std::cout << "1. Deposit Gold\n2. Withdraw Gold\n3. Buy Diamonds\n4. Sell Diamonds \n\n0. Back\n"
                   << std::endl;
 
         std::cout << "Your choice: ";
         std::cin >> choice;
-        std::cout << "____________________\n";
+        clearScreen();
 
         switch (choice)
         {
@@ -35,9 +47,9 @@ int bankMenu(Player &player)
                 player.bankGold += amount;
                 std::cout << "\n\t> You have deposited " << amount << " gold safely in the bank. <\n"
                           << std::endl;
-                          std::cout<<"  Bank: "<< player.bankGold << " gold"<< std::endl;
-                          std::cout<<"  At Belt: "<< player.gold << " gold"<< std::endl;
-                          std::cout<< "___________________"<< std::endl;
+                std::cout << "  Bank: " << player.bankGold << " gold" << std::endl;
+                std::cout << "  At Belt: " << player.gold << " gold" << std::endl;
+                std::cout << "___________________" << std::endl;
 
                 choice = 0;
                 break;
@@ -60,9 +72,9 @@ int bankMenu(Player &player)
                 player.gold += amount;
                 std::cout << "\n\t> You have withdrawn " << amount << " gold from the bank. <\n"
                           << std::endl;
-                          std::cout<<"  Bank: "<< player.bankGold << " gold"<< std::endl;
-                          std::cout<<"  At Belt: "<< player.gold << " gold"<< std::endl;
-                          std::cout<< "___________________"<< std::endl;
+                std::cout << "  Bank: " << player.bankGold << " gold" << std::endl;
+                std::cout << "  At Belt: " << player.gold << " gold" << std::endl;
+                std::cout << "___________________" << std::endl;
 
                 choice = 0;
                 break;
@@ -74,7 +86,7 @@ int bankMenu(Player &player)
             std::cout << "\nPrice per diamond: 800 gold\n";
             std::cout << "\nEnter number of diamonds to buy: ";
             std::cin >> amount;
-            int cost = amount * 800; 
+            int cost = amount * 800;
             if (player.bankGold < cost)
             {
                 std::cout << "\n>> You don't have enough gold in the bank to buy that many diamonds! <<\n"
@@ -87,15 +99,16 @@ int bankMenu(Player &player)
                 player.diamonds += amount;
                 std::cout << "\n\t> You have purchased " << amount << " diamonds. <\n"
                           << std::endl;
-                          std::cout<<"  Bank: "<< player.bankGold << " gold"<< std::endl;
-                          std::cout<<"  At Belt: "<< player.gold << " gold"<< std::endl;
-                          std::cout<< "___________________"<< std::endl;
+                std::cout << "  Bank: " << player.bankGold << " gold" << std::endl;
+                std::cout << "  At Belt: " << player.gold << " gold" << std::endl;
+                std::cout << "___________________" << std::endl;
 
                 choice = 0;
                 break;
             }
         }
-        case 4: {
+        case 4:
+        {
             int amount;
             std::cout << "\nSell price per diamond: 500 gold\n";
             std::cout << "\nEnter number of diamonds to sell: ";
@@ -109,19 +122,19 @@ int bankMenu(Player &player)
             else
             {
                 player.diamonds -= amount;
-                int sellPrice = amount * 500; 
+                int sellPrice = amount * 500;
                 player.bankGold += sellPrice;
                 std::cout << "\n\t> You have sold " << amount << " diamonds for " << sellPrice << " gold. <\n"
                           << std::endl;
-                          std::cout<<"  Bank: "<< player.bankGold << " gold"<< std::endl;
-                          std::cout<<"  At Belt: "<< player.gold << " gold"<< std::endl;
-                          std::cout<< "___________________"<< std::endl;
+                std::cout << "  Bank: " << player.bankGold << " gold" << std::endl;
+                std::cout << "  At Belt: " << player.gold << " gold" << std::endl;
+                std::cout << "___________________" << std::endl;
 
                 choice = 0;
                 break;
+            }
         }
-    }
-}
+        }
     }
     return 0;
 }

@@ -1,5 +1,6 @@
 #include "adventure.h"
 #include "player.h"
+#include "utils.h"
 #include <iostream>
 #include <cstdlib> 
 #include <ctime>  
@@ -57,6 +58,7 @@ void adventureMenu(Player &player) {
         std::cout << "\n0. Back\n\n";
         std::cout << "Your choice: ";
         std::cin >> choice;
+        clearScreen();
 
         switch(choice) {
             case 1: {

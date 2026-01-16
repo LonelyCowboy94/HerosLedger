@@ -1,4 +1,5 @@
 #include "shop.h"
+#include "utils.h"
 #include "player.h"
 #include <iostream>
 
@@ -7,12 +8,14 @@ int shop(Player &player, Weapon weapons[], int weaponSize, Armor armors[], int a
     int choice4 = -1;
     while (choice4 != 0)
     {
-        std::cout << "\n\t--> Explore the Bazaar <--" << std::endl;
+        std::cout << std::endl;
+        textCenter("--> Welcome to the Bazaar <--");
+        std::cout << std::endl;
         std::cout << "\n1. Weapons \n2. Potions \n3. Armor \n4. Sell Items \n\n0. Back\n"
                   << std::endl;
         std::cout << "Your choice: ";
         std::cin >> choice4;
-        std::cout << "____________________\n";
+        clearScreen();
         switch (choice4)
         {
         case 1:
@@ -55,8 +58,10 @@ int buyArmor(Player &player, Armor armors[], int armorSize)
     int choice8 = -1;
     while (choice8 != 0)
     {
-        std::cout << "\n\t--> Guardian's Armory <--\n"
-                  << std::endl;
+        std::cout << std::endl;
+        textCenter("--> Guardian's Armory <--");
+        std::cout << std::endl;
+        std::cout << std::endl;
 
         for (int i = 1; i <= armorSize; i++)
         {
@@ -66,7 +71,7 @@ int buyArmor(Player &player, Armor armors[], int armorSize)
 
         std::cout << "\nYour choice: ";
         std::cin >> choice8;
-        std::cout << "____________________\n";
+        clearScreen();
 
         for (int i = 1; i <= armorSize; i++)
         {
@@ -102,8 +107,10 @@ int buyPotions(Player &player, Potion potions[], int potionSize)
     int choice7 = -1;
     while (choice7 != 0)
     {
-        std::cout << "\n\t--> Alchemist's Shoppe <--\n"
-                  << std::endl;
+        std::cout << std::endl;
+        textCenter("--> Alchemist's Shoppe <--");
+        std::cout << std::endl;
+        std::cout << std::endl;
         for (int i = 0; i < potionSize; i++)
         {
             std::cout << i + 1 << ". " << potions[i].name << " - Effect Amount: " << potions[i].effectAmount << " - Price: $" << potions[i].price << std::endl;
@@ -111,7 +118,7 @@ int buyPotions(Player &player, Potion potions[], int potionSize)
         std::cout << "\n0. Back" << std::endl;
         std::cout << "\nYour choice: ";
         std::cin >> choice7;
-        std::cout << "____________________\n";
+        clearScreen();
 
         for (int i = 1; i <= potionSize; i++)
         {
@@ -140,16 +147,21 @@ int buyWeapon(Player &player, Weapon weapons[], int weaponSize)
     int choice5 = -1;
     while (choice5 != 0)
     {
-        std::cout << "\n\t--> Armory <--\n"
-                  << std::endl;
+        std::cout << std::endl;
+        textCenter("--> Armory <--");
+        std::cout << std::endl;
+        std::cout << std::endl;
+       
         for (int i = 1; i <= weaponSize; i++)
         {
             std::cout << i << ". " << weapons[i - 1].name << " - Damage: " << weapons[i - 1].damage << " - Price: $" << weapons[i - 1].price << std::endl;
         }
 
+        std::cout << "\n0. Back" << std::endl;
+
         std::cout << "\nYour choice: ";
         std::cin >> choice5;
-        std::cout << "____________________\n";
+        clearScreen();
 
         for (int i = 1; i <= weaponSize; i++)
         {
@@ -184,8 +196,10 @@ void sellMenu(Player &player,
               Armor armors[], int armorSize, 
               Potion potions[], int potionSize) {
 
-    std::cout << "\n\t--> Sell Items <--\n";
-
+                std::cout << std::endl;
+                textCenter("--> Sell Items <--");
+                std::cout << std::endl;
+  
     std::cout << "\nYour Inventory:\n";
     for(auto &item : player.inventory) {
         if(item.second > 0)
@@ -197,11 +211,17 @@ void sellMenu(Player &player,
     if(!player.armor.name.empty())
         std::cout << "- " << player.armor.name << " (equipped armor)\n";
 
+        std::cout << "\n0. Back\n";
+
     std::string itemToSell;
     std::cout << "\nEnter the name of the item you want to sell: ";
     std::cin.ignore(); 
     std::getline(std::cin, itemToSell); 
 
+    if(itemToSell == "0" || itemToSell.empty()) {
+        clearScreen();
+        return; 
+    }
     sellItem(player, itemToSell, weapons, weaponSize, armors, armorSize, potions, potionSize);
     player.inventory.erase(itemToSell);
 }
@@ -247,8 +267,9 @@ void sellItem(Player &player, const std::string& itemName,
     if(player.inventory[itemName] > 0) {
         player.inventory[itemName]--; 
         player.gold += static_cast<int>(price * 0.7);
-        std::cout << "\n\t> Sold one " << itemName << " for " 
-                  << static_cast<int>(price*0.7) << " gold <\n";
+        std::cout << std::endl;
+        textCenter("> Sold one " + itemName + " for " + std::to_string(static_cast<int>(price*0.7)) + " gold <", 50);
+        textCenter("=== gold at belt: " + std::to_string(player.gold) + " ===", 50);
 
         if(player.inventory[itemName] == 0)
             player.inventory.erase(itemName);
@@ -259,16 +280,19 @@ void sellItem(Player &player, const std::string& itemName,
     if(player.weapon.name == itemName) {
         player.unequipWeapon();
         player.gold += static_cast<int>(price * 0.7);
-        std::cout << "\n\t> Sold equipped " << itemName << " for " 
-                  << static_cast<int>(price*0.7) << " gold <\n";
+        std::cout << std::endl;
+        textCenter("> Sold equipped " + itemName + " for " + std::to_string(static_cast<int>(price*0.7)) + " gold <", 50);
+        textCenter("=== gold at belt: " + std::to_string(player.gold) + " ===", 50);
         return;
     }
 
     if(player.armor.name == itemName) {
         player.unequipArmor();
         player.gold += static_cast<int>(price * 0.7);
-        std::cout << "\n\t> Sold equipped " << itemName << " for " 
-                  << static_cast<int>(price*0.7) << " gold <\n";
+        std::cout << std::endl;
+        textCenter("> Sold equipped " + itemName + " for " + std::to_string(static_cast<int>(price*0.7)) + " gold <", 50);
+        textCenter("=== gold at belt: " + std::to_string(player.gold) + " ===", 50);
+       
         return;
     }
 
